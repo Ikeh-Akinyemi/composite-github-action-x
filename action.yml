@@ -24,7 +24,7 @@ runs:
         which migrate
       shell: bash
     - name: Run database migrations
-      run: migrate -source ${{ inputs.migration_files_path }} -database ${{ inputs.database_url }} -verbose up
+      run: migrate -source ${{ inputs.migration_files_source }} -database ${{ inputs.database_url }} -verbose up
       shell: bash
     - name: Report migration status
       id: database-migration-report
