@@ -6,10 +6,10 @@ inputs:
       Format postgres://[user[:password]@][netloc][:port][/dbname][?param1=value1&...]"
     required: true
     default: "postgres://root:password@localhost:5432/test?sslmode=disable"
-  migration_files_path:
-    description: "The file path to the migration files"
+  migration_files_source:
+    description: "The source path to the migration files. This can be a local directory, a GitHub repository in the format 'github://<owner>/<repo>?dir=<directory>', or any other supported source format by golang-migrate."
     required: true
-    default: "db/migrations"
+    default: "file://db/migrations"
 outputs:
   migration_report:
     description: "Reports the status of the database migration"
@@ -24,7 +24,7 @@ runs:
         which migrate
       shell: bash
     - name: Run database migrations
-      run: migrate -path ${{ inputs.migration_files_path }} -database ${{ inputs.database_url }} -verbose up
+      run: migrate -source ${{ inputs.migration_files_path }} -database ${{ inputs.database_url }} -verbose up
       shell: bash
     - name: Report migration status
       id: database-migration-report
